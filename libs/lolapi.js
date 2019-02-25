@@ -77,13 +77,12 @@ class LeagueOfLegendsAPI {
             var { matches } = body;
             console.log(body);
             index = body.endIndex;
-
-            if(totalGames === 0) totalGames = body.totalGames;
+            totalGames = body.totalGames;
 
             // totalGames = body.totalGames >= dataSize ? dataSize : body.totalGames;
             console.log(`${Math.floor((index / totalGames) * 100)}% / 100%`);
             matches.map(({ gameId, champion }) => data.push({ gameId, champion }));
-        } while (index != totalGames);
+        } while (index !== totalGames);
         
         return data;
     }
