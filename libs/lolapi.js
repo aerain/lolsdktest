@@ -77,7 +77,7 @@ class LeagueOfLegendsAPI {
             var { matches } = body;
             index = body.endIndex;
 
-            if(totalGames !== 0) totalGames = body.totalGames;
+            if(totalGames === 0) totalGames = body.totalGames;
 
             // totalGames = body.totalGames >= dataSize ? dataSize : body.totalGames;
             console.log(`${Math.floor((index / totalGames) * 100)}% / 100%`);
