@@ -51,12 +51,11 @@ class LeagueOfLegendsAPI {
         return body.accountId;
     }
 
-    async getMatchListFromAccountId(accountId, queue = null) {
+    async getMatchListFromAccountId(accountId, totalGames=5, queue = null) {
         if(!this.hasAppkey()) return;
         let uri = `https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/${accountId}?api_key=${this.app_key}${queue !== null ? `&queue=${queue}` : ''}`
         let data = [];
         let index = 0;
-        let totalGames = 5;
 
         let response = await fetch(`${uri}&endIndex=${totalGames}`);
         let body = await response.json();
