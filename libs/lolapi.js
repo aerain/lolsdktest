@@ -67,7 +67,7 @@ class LeagueOfLegendsAPI {
         let dataSize = 100;
         let index = 0;
         let totalGames = 0;
-        
+
         do {        
             let response = await fetch(`${uri}&beginIndex=${index}&endIndex=${index+dataSize}`);
             let body = await response.json();
@@ -79,7 +79,7 @@ class LeagueOfLegendsAPI {
             totalGames = body.totalGames >= dataSize ? dataSize : body.totalGames;
             console.log(`${Math.floor((index / totalGames) * 100)}% / 100%`);
             matches.map(({ gameId, champion }) => data.push({ gameId, champion }));
-        } while (index <= totalGames);
+        } while (index != totalGames);
         
         return data;
     }
