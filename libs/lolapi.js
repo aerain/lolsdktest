@@ -51,31 +51,33 @@ class LeagueOfLegendsAPI {
         return body.accountId;
     }
 
-    async getMatchListFromAccountId(accountId, totalGames=5, queue = null) {
+    async getMatchListFromAccountId(accountId, page=5, queue = null) {
         if(!this.hasAppkey()) return;
         let uri = `https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/${accountId}?api_key=${this.app_key}${queue !== null ? `&queue=${queue}` : ''}`
         let data = [];
+        // let beginIndex = 0;
+        // let lastIndex = 0;
+        // let response = await fetch(`${uri}&beginIndex=${beginIndex}&endIndex=${}`);
+        // let body = await response.json();
+
+        // if(!this.verifyBody(body)) return;
+
+        // var { matches } = body;
+        // matches.map(({ gameId, champion }) => data.push({ gameId, champion }));
+        let dataSize = 100;
         let index = 0;
-
-        let response = await fetch(`${uri}&endIndex=${totalGames}`);
-        let body = await response.json();
-
-        if(!this.verifyBody(body)) return;
-
-        var { matches } = body;
-        matches.map(({ gameId, champion }) => data.push({ gameId, champion }));
-        // do {        
-        //     let response = await fetch(`${uri}&beginIndex=${index}&endIndex=${index+dataSi}`);
-        //     let body = await response.json();
+        do {        
+            let response = await fetch(`${uri}&beginIndex=${index}&endIndex=${index+dataSize}`);
+            let body = await response.json();
             
-        //     if(!this.verifyBody(body)) break;
+            if(!this.verifyBody(body)) break;
 
-        //     var { matches } = body;
-        //     index = body.endIndex,
-        //     totalGames = body.totalGames >= dataSize ? dataSize : body.totalGames;
-        //     console.log(`${Math.floor((index / totalGames) * 100)}% / 100%`);
-        //     matches.map(({ gameId, champion }) => data.push({ gameId, champion }));
-        // } while (index <= totalGames);
+            var { matches } = body;
+            index = body.endIndex,
+            totalGames = body.totalGames >= dataSize ? dataSize : body.totalGames;
+            console.log(`${Math.floor((index / totalGames) * 100)}% / 100%`);
+            matches.map(({ gameId, champion }) => data.push({ gameId, champion }));
+        } while (index <= totalGames);
         
         return data;
     }
