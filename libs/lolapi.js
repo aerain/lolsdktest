@@ -75,6 +75,7 @@ class LeagueOfLegendsAPI {
             if(!this.verifyBody(body)) break;
 
             var { matches } = body;
+            console.log(body);
             index = body.endIndex;
 
             if(totalGames === 0) totalGames = body.totalGames;
